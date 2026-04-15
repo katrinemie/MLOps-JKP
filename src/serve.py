@@ -29,7 +29,7 @@ def load_model():
 
     # Prøv at hente model fra Production stage
     client = mlflow.tracking.MlflowClient()
-    model_name = "cats-vs-dogs-model"
+    model_name = "cat_vs_dog-JKP-model"
 
     try:
         # Hent model fra Production
@@ -134,7 +134,7 @@ def predict():
 def info():
     """Get model info."""
     return jsonify({
-        "model_name": "cats-vs-dogs-model",
+        "model_name": "cat_vs_dog-JKP-model",
         "classes": CLASS_NAMES,
         "input_size": 224,
         "device": str(DEVICE),

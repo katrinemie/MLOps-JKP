@@ -24,7 +24,7 @@ def generate_model_card(config: dict, metrics: dict = None) -> str:
     card = f"""# Model Card: Cats vs Dogs Classifier
 
 ## Model Overview
-- **Model Name:** cats-vs-dogs-resnet18
+- **Model Name:** cat_vs_dog-JKP-resnet18
 - **Architecture:** {m["name"]}
 - **Task:** Binary image classification (Cat = 0, Dog = 1)
 - **Framework:** PyTorch + torchvision

@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REGISTRY       = '172.24.198.42:5000'
-        IMAGE_NAME     = 'cats-vs-dogs'
+        IMAGE_NAME     = 'cat_vs_dog-JKP'
         MLFLOW_URI     = 'http://172.24.198.42:5050'
         MIN_ACCURACY   = '0.80'
     }
