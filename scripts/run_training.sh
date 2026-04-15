@@ -26,6 +26,6 @@ singularity exec --nv \
     --env PYTHONNOUSERSITE=1 \
     "$CONTAINER" bash -c "
     source $VENV/bin/activate
-    cd $WORKDIR/src
-    python train.py --config ../configs/config.yaml
+    cd $WORKDIR
+    PYTHONPATH=src python src/train.py --config configs/config.yaml
 "
