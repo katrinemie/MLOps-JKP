@@ -104,7 +104,7 @@ def main():
     forget_loader = DataLoader(forget_subset, batch_size=64, shuffle=True)
 
     # Gradient ascent: MAKSIMER loss paa forget-klassen
-    unlearn_opt = optim.Adam(model.parameters(), lr=5e-4)
+    unlearn_opt = optim.Adam(model.parameters(), lr=5e-5)
     unlearn_epochs = 3
 
     model.train()
@@ -119,6 +119,22 @@ def main():
             epoch_loss += -loss.item()
         print(f"  Epoch {ep + 1}/{unlearn_epochs}, "
               f"loss paa forget class: {epoch_loss / len(forget_loader):.4f}")
+
+    # Fine-tune paa retain-data for at stabilisere remaining classes
+    print("  Fine-tuning paa remaining classes (2 epochs)...")
+    retain_indices = [i for i, (_, y) in enumerate(train_data)
+                      if y != forget_class]
+    retain_loader = DataLoader(Subset(train_data, retain_indices),
+                               batch_size=64, shuffle=True)
+    retain_opt = optim.Adam(model.parameters(), lr=1e-4)
+    model.train()
+    for ep in range(2):
+        for x, y in retain_loader:
+            x, y = x.to(device), y.to(device)
+            retain_opt.zero_grad()
+            loss = criterion(model(x), y)
+            loss.backward()
+            retain_opt.step()
 
     # ========== TASK 3: Evaluer forgetting og retention ==========
     print(f"\n=== Task 3: Evaluering efter unlearning ===")
