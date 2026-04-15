@@ -1,7 +1,7 @@
 """
-Continual learning med experience replay og EWC paa MNIST.
-Task 1: Traen paa cifre 0-4
-Task 2: Naiv traening paa 5-9 (catastrophic forgetting)
+Continual learning med experience replay og EWC påMNIST.
+Task 1: Træn påcifre 0-4
+Task 2: Naiv træning på5-9 (catastrophic forgetting)
 Task 3: Experience replay + EWC
 """
 
@@ -100,7 +100,7 @@ def compute_fisher(model, loader, device, n_samples=500):
 def train_with_replay_ewc(model, new_loader, buffer, optimizer, criterion,
                            device, fisher, old_params, ewc_lambda=400,
                            epochs=5, replay_batch=32):
-    """Traen med experience replay + EWC regularization."""
+    """Træn med experience replay + EWC regularization."""
     model.train()
     for ep in range(epochs):
         for x, y in new_loader:
@@ -152,8 +152,8 @@ def main():
 
     results = {}
 
-    # ========== TASK 1: Traen paa cifre 0-4 ==========
-    print("\n=== Task 1: Traening paa cifre 0-4 ===")
+    # ========== TASK 1: Træn påcifre 0-4 ==========
+    print("\n=== Task 1: Træning påcifre 0-4 ===")
     model = SimpleNet().to(device)
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
     criterion = nn.CrossEntropyLoss()
@@ -161,15 +161,15 @@ def main():
     train_model(model, task1_loader, optimizer, criterion, device, epochs=5)
 
     acc_t1, class_acc_t1 = evaluate(model, test_loader, device, task1_classes)
-    print(f"Accuracy paa 0-4: {acc_t1:.1f}%")
+    print(f"Accuracy på0-4: {acc_t1:.1f}%")
     print(f"Per klasse: {class_acc_t1}")
     results["task1_after_training"] = {
         "accuracy_0_4": acc_t1,
         "per_class": class_acc_t1,
     }
 
-    # ========== TASK 2: Naiv traening paa 5-9 ==========
-    print("\n=== Task 2: Naiv traening paa cifre 5-9 (ingen replay) ===")
+    # ========== TASK 2: Naiv træning på5-9 ==========
+    print("\n=== Task 2: Naiv træning påcifre 5-9 (ingen replay) ===")
     naive_model = SimpleNet().to(device)
     naive_model.load_state_dict(model.state_dict())
     naive_opt = optim.Adam(naive_model.parameters(), lr=1e-3)
@@ -180,8 +180,8 @@ def main():
     acc_old, _ = evaluate(naive_model, test_loader, device, task1_classes)
     acc_new, _ = evaluate(naive_model, test_loader, device, task2_classes)
     acc_all, class_acc_naive = evaluate(naive_model, test_loader, device)
-    print(f"Accuracy paa 0-4 (gamle): {acc_old:.1f}%")
-    print(f"Accuracy paa 5-9 (nye):   {acc_new:.1f}%")
+    print(f"Accuracy på0-4 (gamle): {acc_old:.1f}%")
+    print(f"Accuracy på5-9 (nye):   {acc_new:.1f}%")
     print(f"Accuracy total:           {acc_all:.1f}%")
     print(f"Per klasse: {class_acc_naive}")
     results["task2_naive"] = {
@@ -221,8 +221,8 @@ def main():
     acc_old_r, _ = evaluate(replay_model, test_loader, device, task1_classes)
     acc_new_r, _ = evaluate(replay_model, test_loader, device, task2_classes)
     acc_all_r, class_acc_replay = evaluate(replay_model, test_loader, device)
-    print(f"Accuracy paa 0-4 (gamle): {acc_old_r:.1f}%")
-    print(f"Accuracy paa 5-9 (nye):   {acc_new_r:.1f}%")
+    print(f"Accuracy på0-4 (gamle): {acc_old_r:.1f}%")
+    print(f"Accuracy på5-9 (nye):   {acc_new_r:.1f}%")
     print(f"Accuracy total:           {acc_all_r:.1f}%")
     print(f"Per klasse: {class_acc_replay}")
     results["task3_replay_ewc"] = {

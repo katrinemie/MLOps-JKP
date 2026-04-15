@@ -1,6 +1,6 @@
 """
-Machine unlearning med gradient ascent paa MNIST.
-Task 1: Traen classifier paa alle cifre 0-9
+Machine unlearning med gradient ascent påMNIST.
+Task 1: Træn classifier påalle cifre 0-9
 Task 2: Glem klasse 7 via gradient ascent
 Task 3: Evaluer forgetting og retention
 """
@@ -68,8 +68,8 @@ def main():
     forget_class = 7
     results = {}
 
-    # ========== TASK 1: Traen paa alle cifre ==========
-    print("\n=== Task 1: Traening paa MNIST 0-9 ===")
+    # ========== TASK 1: Træn påalle cifre ==========
+    print("\n=== Task 1: Træning påMNIST 0-9 ===")
     model = SimpleNet().to(device)
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
     criterion = nn.CrossEntropyLoss()
@@ -103,7 +103,7 @@ def main():
     forget_subset = Subset(train_data, forget_indices)
     forget_loader = DataLoader(forget_subset, batch_size=64, shuffle=True)
 
-    # Gradient ascent: MAKSIMER loss paa forget-klassen
+    # Gradient ascent: MAKSIMER loss påforget-klassen
     unlearn_opt = optim.Adam(model.parameters(), lr=5e-5)
     unlearn_epochs = 3
 
@@ -118,10 +118,10 @@ def main():
             unlearn_opt.step()
             epoch_loss += -loss.item()
         print(f"  Epoch {ep + 1}/{unlearn_epochs}, "
-              f"loss paa forget class: {epoch_loss / len(forget_loader):.4f}")
+              f"loss påforget class: {epoch_loss / len(forget_loader):.4f}")
 
-    # Fine-tune paa retain-data for at stabilisere remaining classes
-    print("  Fine-tuning paa remaining classes (2 epochs)...")
+    # Fine-tune påretain-data for at stabilisere remaining classes
+    print("  Fine-tuning påremaining classes (2 epochs)...")
     retain_indices = [i for i, (_, y) in enumerate(train_data)
                       if y != forget_class]
     retain_loader = DataLoader(Subset(train_data, retain_indices),
@@ -162,7 +162,7 @@ def main():
 
     # ========== Sammenligning ==========
     print(f"\n=== Sammenligning ===")
-    print(f"{'Klasse':<10} {'Foer':>10} {'Efter':>10} {'Diff':>10}")
+    print(f"{'Klasse':<10} {'Før':>10} {'Efter':>10} {'Diff':>10}")
     print("-" * 42)
     for c in range(10):
         diff = after_class[c] - baseline_class[c]
