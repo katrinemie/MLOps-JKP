@@ -150,7 +150,8 @@ def train(config: dict) -> None:
 
     # Initialize carbon tracker
     tracker = CarbonTracker(
-        epochs=config["training"]["epochs"]
+        epochs=config["training"]["epochs"],
+        log_dir=str(model_dir),
     )
 
     with mlflow.start_run():
@@ -205,13 +206,14 @@ def train(config: dict) -> None:
 
         # Stop carbon tracker and log results
         tracker.stop()
-        carbon_file = model_dir / "carbon_tracking.json"
-        if carbon_file.exists():
-            import json
-            with open(carbon_file) as f:
-                print("\n=== Carbon Footprint ===")
-                print(json.dumps(json.load(f), indent=2))
-                print("=======================\n")
+
+        # Log carbon tracker output files as mlflow artifacts
+        import glob
+        carbon_logs = glob.glob(str(model_dir / "*carbontracker*"))
+        for clog in carbon_logs:
+            mlflow.log_artifact(clog)
+            print(f"Logged carbon artifact: {clog}")
+
         # Log slutresultat
         mlflow.log_metric("best_val_acc", best_val_acc)
 
