@@ -1,0 +1,32 @@
+# Data
+data/*
+!data/raw/
+data/raw/*
+!data/raw/PetImages.dvc
+creditcard.csv
+
+# Virtual environment
+.venv
+venv/
+
+# IDE/Editor
+.idea/
+.vscode/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Model artifacts
+/models/
+*.pt
+*.pth
+
+# Logs
+/logs/
+
+# OS
+.DS_Store
+PetImages.zip
