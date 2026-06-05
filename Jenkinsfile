@@ -16,7 +16,7 @@ pipeline {
         stage('Lint') {
             steps {
                 sh '''
-                    python3 -m venv venv
+                    python3 -m venv venv 2>/dev/null || (sudo apt-get install -y python3-venv python3.12-venv && python3 -m venv venv)
                     . venv/bin/activate
                     pip install --quiet flake8
                     flake8 src/ --max-line-length=100 --count --statistics
