@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'GPU Worker 1' }
 
     environment {
         REGISTRY       = '172.24.198.42:5000'
@@ -16,7 +16,7 @@ pipeline {
         stage('Lint') {
             steps {
                 sh '''
-                    python3 -m venv venv 2>/dev/null || (pip3 install --quiet virtualenv && python3 -m virtualenv venv)
+                    python3 -m venv venv
                     . venv/bin/activate
                     pip install --quiet flake8
                     flake8 src/ --max-line-length=100 --count --statistics
