@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/gravgaard/Library/CloudStorage/OneDrive-AalborgUniversitet/DAKI/P4/MLOps/New_git/MLOps-JKP remote -v)"
+    ]
+  }
+}
