@@ -13,19 +13,10 @@ VENV="/ceph/home/student.aau.dk/gd65nz/envs/mlops"
 
 mkdir -p "$WORKDIR/logs" "$WORKDIR/models"
 
-# Opret venv hvis det ikke findes
-if [ ! -d "$VENV" ]; then
-    singularity exec --nv "$CONTAINER" bash -c "
-        python -m venv --system-site-packages $VENV
-        source $VENV/bin/activate
-        pip install --quiet carbontracker mlflow[s3] pyyaml scikit-learn tqdm
-    "
-fi
-
 singularity exec --nv \
     --env PYTHONNOUSERSITE=1 \
     "$CONTAINER" bash -c "
     source $VENV/bin/activate
     cd $WORKDIR
-    PYTHONPATH=src python src/train.py --config configs/config.yaml
+    PYTHONPATH=src python -u src/train.py --config configs/config.yaml
 "

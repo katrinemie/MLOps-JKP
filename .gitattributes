@@ -1,0 +1,5 @@
+# Normalisér line-endings - undgå CRLF-støj fra WSL/Windows
+* text=auto eol=lf
+
+# Shell-scripts skal altid være LF
+*.sh text eol=lf
