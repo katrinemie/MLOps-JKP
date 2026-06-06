@@ -138,21 +138,7 @@ pipeline {
         }
 
         // ----------------------------------------------------------------
-        // 8. MODUL 7: Continual Learning + Unlearning (MNIST)
-        // ----------------------------------------------------------------
-        stage('Module 7') {
-            steps {
-                sh '''
-                    . venv/bin/activate
-                    pip install --quiet torchvision
-                    python src/continual_learning.py
-                    python src/unlearning.py
-                '''
-            }
-        }
-
-        // ----------------------------------------------------------------
-        // 9. REGISTRER MODEL I MLFLOW (kun hvis accuracy >= MIN_ACCURACY)
+        // 8. REGISTRER MODEL I MLFLOW (kun hvis accuracy >= MIN_ACCURACY)
         // ----------------------------------------------------------------
         stage('Register Model') {
             when {
