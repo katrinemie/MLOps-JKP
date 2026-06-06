@@ -140,7 +140,7 @@ def main():
     retained_classes = [c for c in range(10) if c != FORGET_CLASS]
     retained_acc_after = sum(acc_after[c] for c in retained_classes) / len(retained_classes)
 
-    print(f"\n=== UNLEARNING RESULTS ===")
+    print("\n=== UNLEARNING RESULTS ===")
     print(f"Overall accuracy before: {overall_before:.1%}  →  after: {overall_after:.1%}")
     print(f"Class {FORGET_CLASS} accuracy before: {acc_before[FORGET_CLASS]:.1%}  "
           f"→  after: {acc_after[FORGET_CLASS]:.1%}  (forgotten)")

@@ -19,7 +19,7 @@ import random
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, Subset, ConcatDataset
+from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -149,7 +149,8 @@ def main():
     # We retrain a small probe on Task A features to measure forgetting
     acc_a_after_naive = evaluate(model_naive, build_loader(test_a, shuffle=False))
     acc_b_naive = evaluate(model_naive, build_loader(test_b, shuffle=False))
-    print(f"  Accuracy on Task A after naive Task B training: {acc_a_after_naive:.1%} (forgetting!)")
+    print(f"  Accuracy on Task A after naive Task B training: "
+          f"{acc_a_after_naive:.1%} (forgetting!)")
     print(f"  Accuracy on Task B (naive): {acc_b_naive:.1%}")
 
     # ------------------------------------------------------------------
