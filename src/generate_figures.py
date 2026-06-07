@@ -18,24 +18,29 @@ plt.rcParams.update({'font.size': 11, 'figure.dpi': 150, 'savefig.bbox': 'tight'
 
 
 def fig_cicd_pipeline():
-    fig, ax = plt.subplots(figsize=(10, 2.5))
-    ax.set_xlim(0, 10)
-    ax.set_ylim(0, 2)
-    ax.axis('off')
-
     stages = [
         ('Lint\n(Flake8)', '#eff6ff', BLUE),
-        ('Unit Tests\n(pytest)', '#eff6ff', BLUE),
+        ('Test\n(pytest)', '#eff6ff', BLUE),
         ('Build Docker\n(commit hash)', '#fef3c7', ORANGE),
         ('Fetch Data\n(DVC/MinIO)', '#fef3c7', ORANGE),
         ('Train\n(MLflow)', '#dcfce7', GREEN),
         ('Evaluate\n(metrics)', '#dcfce7', GREEN),
+        ('Quantize\n(INT8)', '#dcfce7', GREEN),
         ('Register\n(if acc≥80%)', '#fee2e2', RED),
+        ('Deploy Model\n(to Production)', '#fee2e2', RED),
+        ('Deploy API\n(Flask)', '#fee2e2', RED),
     ]
+
+    n = len(stages)
+    width = 1.45 * n
+    fig, ax = plt.subplots(figsize=(width, 2.6))
+    ax.set_xlim(0, width)
+    ax.set_ylim(0, 2)
+    ax.axis('off')
 
     w, h = 1.2, 1.4
     y = 0.3
-    gap = (10 - len(stages) * w) / (len(stages) + 1)
+    gap = (width - n * w) / (n + 1)
 
     for i, (label, bg, edge) in enumerate(stages):
         x = gap + i * (w + gap)
@@ -120,11 +125,12 @@ def fig_batch_benchmark():
     ax1.set_xscale('log', base=2)
     ax1.set_xticks(bs)
     ax1.set_xticklabels([str(b) for b in bs])
+    ax1.set_ylim(min(throughput) * 0.6, max(throughput) * 1.22)
 
     peak_idx = throughput.index(max(throughput))
     ax1.annotate(f'Peak: {throughput[peak_idx]:.0f} img/s\n(bs={bs[peak_idx]})',
                  xy=(bs[peak_idx], throughput[peak_idx]),
-                 xytext=(bs[peak_idx]*1.8, throughput[peak_idx]+15),
+                 xytext=(bs[peak_idx]*0.45, throughput[peak_idx]+5),
                  fontsize=9, fontweight='bold', color=BLUE,
                  arrowprops=dict(arrowstyle='->', color=BLUE))
 
@@ -136,7 +142,7 @@ def fig_batch_benchmark():
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper right')
-    ax1.set_title('D4.2: Batch Inference – Throughput vs Latency', fontweight='bold')
+    ax1.set_title('D4.2: Batch Inference – Throughput vs Latency', fontweight='bold', pad=12)
     ax1.grid(True, alpha=0.3)
     fig.tight_layout()
     fig.savefig(os.path.join(OUTDIR, 'batch_benchmark.png'))
@@ -258,6 +264,78 @@ def fig_scaling_law():
     print('  ✓ scaling_law.png')
 
 
+def fig_continual_learning():
+    with open(os.path.join(RESULTS, 'continual_learning_results.json')) as f:
+        d = json.load(f)
+    t1 = d['task1_after_training']['accuracy_0_4']
+    naive = d['task2_naive']
+    replay = d['task3_replay_ewc']
+
+    methods = ['After Task 1', 'Naive\nsequential', 'Replay + EWC']
+    old = [t1, naive['accuracy_0_4'], replay['accuracy_0_4']]
+    new = [0, naive['accuracy_5_9'], replay['accuracy_5_9']]
+
+    x = np.arange(len(methods))
+    w = 0.38
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.bar(x - w/2, old, w, label='Digits 0–4 (old)', color=BLUE)
+    ax.bar(x + w/2, new, w, label='Digits 5–9 (new)', color=ORANGE)
+
+    for i in range(len(methods)):
+        ax.text(x[i] - w/2, old[i] + 1.5, f'{old[i]:.1f}', ha='center',
+                fontsize=9, fontweight='bold', color=BLUE)
+        if new[i] > 0:
+            ax.text(x[i] + w/2, new[i] + 1.5, f'{new[i]:.1f}', ha='center',
+                    fontsize=9, fontweight='bold', color=ORANGE)
+
+    ax.set_ylabel('Accuracy (%)')
+    ax.set_title('D7.1: Continual Learning – Catastrophic Forgetting', fontweight='bold')
+    ax.set_xticks(x)
+    ax.set_xticklabels(methods)
+    ax.set_ylim(0, 125)
+    ax.legend(loc='upper center', ncol=2)
+    ax.grid(True, axis='y', alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUTDIR, 'continual_learning.png'))
+    plt.close()
+    print('  ✓ continual_learning.png')
+
+
+def fig_unlearning():
+    with open(os.path.join(RESULTS, 'unlearning_results.json')) as f:
+        d = json.load(f)
+    before = d['baseline']['per_class']
+    after = d['after_unlearning']['per_class']
+    classes = [str(c) for c in range(10)]
+    bvals = [before[c] for c in classes]
+    avals = [after[c] for c in classes]
+
+    x = np.arange(10)
+    w = 0.4
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.bar(x - w/2, bvals, w, label='Before', color=BLUE)
+    colors_after = [RED if c == '7' else GREEN for c in classes]
+    ax.bar(x + w/2, avals, w, label='After unlearning', color=colors_after)
+
+    ax.annotate('Digit 7 forgotten\n(96.9% to 0.0%)',
+                xy=(7 + w/2, 2), xytext=(3.7, 42),
+                fontsize=9, fontweight='bold', color=RED,
+                arrowprops=dict(arrowstyle='->', color=RED))
+
+    ax.set_xlabel('Digit class')
+    ax.set_ylabel('Accuracy (%)')
+    ax.set_title('D7.2: Machine Unlearning – Forgetting Digit 7', fontweight='bold')
+    ax.set_xticks(x)
+    ax.set_xticklabels(classes)
+    ax.set_ylim(0, 118)
+    ax.legend(loc='upper right')
+    ax.grid(True, axis='y', alpha=0.3)
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUTDIR, 'unlearning.png'))
+    plt.close()
+    print('  ✓ unlearning.png')
+
+
 if __name__ == '__main__':
     print('Generating report figures...\n')
     fig_cicd_pipeline()
@@ -267,4 +345,6 @@ if __name__ == '__main__':
     fig_batch_benchmark()
     fig_pruning()
     fig_finetune()
+    fig_continual_learning()
+    fig_unlearning()
     print(f'\nAll saved to {os.path.abspath(OUTDIR)}/')
