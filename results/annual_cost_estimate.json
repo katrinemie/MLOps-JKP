@@ -3,14 +3,14 @@
   "training": {
     "per_training_energy_kwh": 0.007407,
     "per_training_time_hours": 0.09,
-    "per_training_co2_grams": 0.79
+    "per_training_co2_grams": 1.06
   },
   "annual": {
     "trainings": 52,
     "total_energy_kwh": 0.39,
-    "total_co2_grams": 41.21,
-    "total_co2_kg": 0.04,
-    "total_co2_metric_tons": 4.1e-05
+    "total_co2_grams": 55.19,
+    "total_co2_kg": 0.055,
+    "total_co2_metric_tons": 5.5e-05
   },
   "cost": {
     "annual_training_cost_usd": 2.02,
@@ -21,14 +21,14 @@
     "cost_per_inference_usd": 1e-06
   },
   "sustainability": {
-    "co2_per_dollar_spent": 0.012032,
-    "equivalent_km_car_per_year": 0.34,
+    "co2_per_dollar_spent": 0.016091,
+    "equivalent_km_car_per_year": 0.52,
     "equivalent_trees_to_offset_per_year": 0.0
   },
   "assumptions": {
     "trainings_per_year": 52,
     "gpu_hourly_cost_usd": 0.44,
-    "region_co2_intensity_grams_per_kwh": 107,
+    "region_co2_intensity_grams_per_kwh": 143.3,
     "inferences_per_year": 1000000
   }
 }
