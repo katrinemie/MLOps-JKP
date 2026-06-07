@@ -82,6 +82,7 @@ def fig_quantization():
     bars = ax.bar(['FP32', 'INT8'], times, color=[BLUE, GREEN], width=0.5)
     ax.set_ylabel('Inference Time (ms)')
     ax.set_title('Latency (batch=1)')
+    ax.set_ylim(0, max(times) * 1.28)
     for bar, val in zip(bars, times):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(times)*0.03,
                 f'{val} ms', ha='center', fontweight='bold', fontsize=10)
@@ -95,13 +96,14 @@ def fig_quantization():
     bars = ax.bar(['FP32', 'INT8'], times, color=[BLUE, GREEN], width=0.5)
     ax.set_ylabel('Inference Time (ms)')
     ax.set_title('Latency (batch=32)')
+    ax.set_ylim(0, max(times) * 1.28)
     for bar, val in zip(bars, times):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(times)*0.03,
                 f'{val} ms', ha='center', fontweight='bold', fontsize=10)
     ax.text(0.5, 0.92, f'{b32["speedup"]}× speedup', transform=ax.transAxes,
             ha='center', fontsize=9, color=GREEN, fontweight='bold')
 
-    fig.suptitle('D4.1: Post-Training Quantization (FP32 → INT8)', fontsize=14, fontweight='bold')
+    fig.suptitle('Quantization from FP32 to INT8', fontsize=14, fontweight='bold')
     fig.tight_layout()
     fig.savefig(os.path.join(OUTDIR, 'quantization_comparison.png'))
     plt.close()
@@ -142,7 +144,7 @@ def fig_batch_benchmark():
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper right')
-    ax1.set_title('D4.2: Batch Inference – Throughput vs Latency', fontweight='bold', pad=12)
+    ax1.set_title('Batch inference throughput and latency', fontweight='bold', pad=12)
     ax1.grid(True, alpha=0.3)
     fig.tight_layout()
     fig.savefig(os.path.join(OUTDIR, 'batch_benchmark.png'))
@@ -171,7 +173,7 @@ def fig_pruning():
 
     ax.set_xlabel('Pruning Level (%)')
     ax.set_ylabel('Prediction Agreement (%)')
-    ax.set_title('D4.3: L1 Magnitude Pruning on ResNet18', fontweight='bold')
+    ax.set_title('Prediction agreement at different pruning levels', fontweight='bold')
     ax.set_ylim(-5, 110)
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
@@ -203,7 +205,7 @@ def fig_finetune():
                     xy=(x[i], 108), ha='center', fontweight='bold', color=GREEN)
 
     ax.set_ylabel('Prediction Agreement (%)')
-    ax.set_title('D4.4: Recovery via Knowledge Distillation', fontweight='bold')
+    ax.set_title('Accuracy recovery with knowledge distillation', fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.set_ylim(0, 115)
@@ -234,7 +236,7 @@ def fig_gustafson():
     ax.text(3.15, 1, 'AAU cluster\n(3 GPUs)', fontsize=8, color=ORANGE)
     ax.set_xlabel('Number of GPUs')
     ax.set_ylabel('Speedup')
-    ax.set_title("D3.1: Gustafson's Law (a=0.15)", fontweight='bold')
+    ax.set_title('Estimated training speedup with more GPUs', fontweight='bold')
     ax.legend(loc='upper left')
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
@@ -252,7 +254,7 @@ def fig_scaling_law():
     bars = ax.barh(dims, factors, color=colors, height=0.5)
     ax.set_xscale('log')
     ax.set_xlabel('Scale Factor (×)')
-    ax.set_title('D3.2: Scaling to Halve Test Loss', fontweight='bold')
+    ax.set_title('Resources needed to halve the test loss', fontweight='bold')
     for bar, val in zip(bars, factors):
         label = f'{val:,.0f}×' if val < 1e5 else f'~{val:.1e}×'
         ax.text(bar.get_width() * 1.3, bar.get_y() + bar.get_height()/2, label,
@@ -278,8 +280,8 @@ def fig_continual_learning():
     x = np.arange(len(methods))
     w = 0.38
     fig, ax = plt.subplots(figsize=(7, 4))
-    ax.bar(x - w/2, old, w, label='Digits 0–4 (old)', color=BLUE)
-    ax.bar(x + w/2, new, w, label='Digits 5–9 (new)', color=ORANGE)
+    ax.bar(x - w/2, old, w, label='Digits 0-4 (old)', color=BLUE)
+    ax.bar(x + w/2, new, w, label='Digits 5-9 (new)', color=ORANGE)
 
     for i in range(len(methods)):
         ax.text(x[i] - w/2, old[i] + 1.5, f'{old[i]:.1f}', ha='center',
@@ -289,7 +291,7 @@ def fig_continual_learning():
                     fontsize=9, fontweight='bold', color=ORANGE)
 
     ax.set_ylabel('Accuracy (%)')
-    ax.set_title('D7.1: Continual Learning – Catastrophic Forgetting', fontweight='bold')
+    ax.set_title('Continual learning and catastrophic forgetting', fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(methods)
     ax.set_ylim(0, 125)
@@ -324,7 +326,7 @@ def fig_unlearning():
 
     ax.set_xlabel('Digit class')
     ax.set_ylabel('Accuracy (%)')
-    ax.set_title('D7.2: Machine Unlearning – Forgetting Digit 7', fontweight='bold')
+    ax.set_title('Machine unlearning of digit 7', fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(classes)
     ax.set_ylim(0, 118)
