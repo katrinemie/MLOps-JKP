@@ -41,8 +41,3 @@ dvc pull    # hent data fra MinIO
 Jenkins pipeline med 9 stages: Lint → Test → Build Docker → Fetch Data → Train → Evaluate → Quantize → Register Model → Deploy API.
 
 MLflow experiment tracking på `http://172.24.198.42:5050`.
-
-
-
-nbb
-
