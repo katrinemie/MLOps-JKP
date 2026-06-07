@@ -1,26 +1,29 @@
 {
-  "timestamp": "2026-04-15T13:59:16",
+  "timestamp": "2026-06-06T15:36:36",
   "source": "MLflow run 3744668c74f8477793b7801f32419261 (rebellious-lamb-735), AAU AI-Lab",
-  "source_log": "models/639535.678888_2026-04-15T135355Z_carbontracker_output.log",
+  "source_note": "Metrics are from MLflow tracking during training — val_acc and best_val_acc from validation split (15% of data). A separate held-out test evaluation was not committed; future runs will auto-save to this file via evaluate.py.",
   "model": "ResNet18 (resnet18, pretrained ImageNet)",
-  "dataset": "Cats vs Dogs (Microsoft Kaggle) — test split 15%",
+  "dataset": "Cats vs Dogs (Microsoft Kaggle)",
   "device": "NVIDIA L4 (AAU AI-Lab)",
   "epochs_trained": 10,
-  "accuracy": 0.9624,
-  "precision": 0.9651,
-  "recall": 0.9598,
-  "f1_score": 0.9624,
-  "accuracy_pct": 96.24,
-  "precision_pct": 96.51,
-  "recall_pct": 95.98,
-  "f1_score_pct": 96.24,
-  "confusion_matrix": [
-    [1842, 67],
-    [76, 1765]
-  ],
-  "num_test_samples": 3750,
+  "parameters": {
+    "learning_rate": 0.001,
+    "optimizer": "adam",
+    "batch_size": 32,
+    "image_size": 224,
+    "seed": 42,
+    "amp": true,
+    "pretrained": true
+  },
+  "mlflow_metrics": {
+    "best_val_acc": 97.332622032542,
+    "val_acc_final_epoch": 97.03921045612164,
+    "val_loss_final_epoch": 0.07747132788013698,
+    "train_acc_final_epoch": 97.5482912332838,
+    "train_loss_final_epoch": 0.062409367494053555
+  },
   "mlflow_run_id": "3744668c74f8477793b7801f32419261",
   "mlflow_experiment": "cat_vs_dog-JKP",
-  "commit_hash": "457fe16",
-  "notes": "Tal hentet fra MLflow-tracking. evaluate.py gemmer nu automatisk til denne fil ved efterfolgende koersler."
+  "commit_hash": "5d0ff3b",
+  "run_duration_min": 2.4
 }
