@@ -1,28 +1,28 @@
 {
-  "timestamp": "2026-03-18T11:55:21.548433",
+  "timestamp": "2026-06-07T21:13:09.313638",
   "training": {
-    "per_training_energy_kwh": 0.041,
-    "per_training_time_hours": 1.0,
-    "per_training_co2_grams": 4.39
+    "per_training_energy_kwh": 0.007407,
+    "per_training_time_hours": 0.09,
+    "per_training_co2_grams": 0.79
   },
   "annual": {
     "trainings": 52,
-    "total_energy_kwh": 2.13,
-    "total_co2_grams": 228.12,
-    "total_co2_kg": 0.23,
-    "total_co2_metric_tons": 0.000228
+    "total_energy_kwh": 0.39,
+    "total_co2_grams": 41.21,
+    "total_co2_kg": 0.04,
+    "total_co2_metric_tons": 4.1e-05
   },
   "cost": {
-    "annual_training_cost_usd": 22.88,
-    "annual_infrastructure_overhead_usd": 4.58,
+    "annual_training_cost_usd": 2.02,
+    "annual_infrastructure_overhead_usd": 0.4,
     "annual_inference_cost_usd": 1.0,
-    "total_annual_cost_usd": 28.46,
-    "cost_per_training_usd": 0.44,
+    "total_annual_cost_usd": 3.43,
+    "cost_per_training_usd": 0.04,
     "cost_per_inference_usd": 1e-06
   },
   "sustainability": {
-    "co2_per_dollar_spent": 0.008017,
-    "equivalent_km_car_per_year": 1.9,
+    "co2_per_dollar_spent": 0.012032,
+    "equivalent_km_car_per_year": 0.34,
     "equivalent_trees_to_offset_per_year": 0.0
   },
   "assumptions": {
