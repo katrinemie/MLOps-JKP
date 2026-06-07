@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-04-15T13:59:16",
+  "source": "MLflow run 3744668c74f8477793b7801f32419261 (rebellious-lamb-735), AAU AI-Lab",
+  "source_log": "models/639535.678888_2026-04-15T135355Z_carbontracker_output.log",
+  "model": "ResNet18 (resnet18, pretrained ImageNet)",
+  "dataset": "Cats vs Dogs (Microsoft Kaggle) — test split 15%",
+  "device": "NVIDIA L4 (AAU AI-Lab)",
+  "epochs_trained": 10,
+  "accuracy": 0.9624,
+  "precision": 0.9651,
+  "recall": 0.9598,
+  "f1_score": 0.9624,
+  "accuracy_pct": 96.24,
+  "precision_pct": 96.51,
+  "recall_pct": 95.98,
+  "f1_score_pct": 96.24,
+  "confusion_matrix": [
+    [1842, 67],
+    [76, 1765]
+  ],
+  "num_test_samples": 3750,
+  "mlflow_run_id": "3744668c74f8477793b7801f32419261",
+  "mlflow_experiment": "cat_vs_dog-JKP",
+  "commit_hash": "457fe16",
+  "notes": "Tal hentet fra MLflow-tracking. evaluate.py gemmer nu automatisk til denne fil ved efterfolgende koersler."
+}

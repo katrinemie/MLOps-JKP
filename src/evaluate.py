@@ -3,6 +3,9 @@ Evaluation script for Cats vs Dogs classification.
 """
 
 import argparse
+import json
+import os
+from datetime import datetime
 
 import torch
 import yaml
@@ -80,13 +83,30 @@ def evaluate(config: dict, model_path: str) -> dict:
     print("\nClassification Report:")
     print(classification_report(all_labels, all_predictions, target_names=["Cat", "Dog"]))
 
-    return {
-        "accuracy": accuracy,
-        "precision": precision,
-        "recall": recall,
-        "f1_score": f1,
+    results = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "model_path": model_path,
+        "device": str(device),
+        "accuracy": round(accuracy, 6),
+        "precision": round(precision, 6),
+        "recall": round(recall, 6),
+        "f1_score": round(f1, 6),
+        "accuracy_pct": round(accuracy * 100, 2),
+        "precision_pct": round(precision * 100, 2),
+        "recall_pct": round(recall * 100, 2),
+        "f1_score_pct": round(f1 * 100, 2),
         "confusion_matrix": conf_matrix.tolist(),
+        "num_test_samples": len(all_labels),
     }
+
+    # Gem resultater til JSON så de er sporbare uden dataset adgang
+    output_path = os.path.join("results", "evaluation_results.json")
+    os.makedirs("results", exist_ok=True)
+    with open(output_path, "w") as f:
+        json.dump(results, f, indent=2)
+    print(f"\nResultater gemt i {output_path}")
+
+    return results
 
 
 def main():

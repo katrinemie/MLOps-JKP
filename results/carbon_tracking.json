@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-04-15T13:59:16",
+  "source": "CarbonTracker 2.4.4 during ResNet18 training on AAU AI-Lab",
+  "source_log": "models/639535.678888_2026-04-15T135355Z_carbontracker_output.log",
+  "model": "ResNet18",
+  "dataset": "Cats vs Dogs (Microsoft Kaggle)",
+  "device": "NVIDIA L4",
+  "location": "Aalborg, North Denmark, DK",
+  "epochs": 10,
+  "total_time": 318,
+  "total_time_human": "5 min 18 s",
+  "total_energy": 0.007407365606,
+  "total_co2": 1.061478602405,
+  "co2_intensity_g_per_kwh": 143.3,
+  "car_equivalent_km": 0.009938938225
+}
